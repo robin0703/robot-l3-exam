@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 机器人三级复习乐园 · 全国青少年机器人技术等级考试</title>
+<style>
+:root{
+  --bg:#FFF6EC;
+  --ink:#3D3654;
+  --ink-soft:#7A7390;
+  --c1:#FF9F43; /* 电学 橙 */
+  --c2:#10AC84; /* 元器件 青 */
+  --c3:#6C5CE7; /* 编程 紫 */
+  --c4:#FD79A8; /* 机器人 粉 */
+  --c5:#00B894; /* 实操 绿 */
+  --c6:#E17055; /* 自测 红橙 */
+  --card:#FFFFFF;
+  --shadow:0 6px 24px rgba(61,54,84,.10);
+  --radius:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.75;
+  font-size:17px;
+}
+/* ---------- 顶部进度条 & 导航 ---------- */
+#progress{position:fixed;top:0;left:0;height:5px;width:0;z-index:99;
+  background:linear-gradient(90deg,#FF9F43,#FD79A8,#6C5CE7,#00B894);border-radius:0 4px 4px 0;transition:width .1s}
+nav{
+  position:sticky;top:0;z-index:90;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(10px);
+  box-shadow:0 2px 14px rgba(61,54,84,.08);
+  padding:10px 16px;
+}
+.nav-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-logo{font-weight:800;font-size:18px;white-space:nowrap;margin-right:8px}
+.nav-logo span{background:linear-gradient(90deg,#FF9F43,#FD79A8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-links a{
+  text-decoration:none;color:var(--ink);font-size:14.5px;font-weight:600;
+  padding:6px 13px;border-radius:999px;transition:.2s;white-space:nowrap;
+}
+.nav-links a:hover{transform:translateY(-2px)}
+.nav-links a:nth-child(1){background:#FFF0DC;color:#D97B1A}
+.nav-links a:nth-child(2){background:#DFF7EF;color:#0B8A6A}
+.nav-links a:nth-child(3){background:#EAE7FD;color:#5A4BD1}
+.nav-links a:nth-child(4){background:#FFE7F0;color:#E0447C}
+.nav-links a:nth-child(5){background:#DFF7EF;color:#00916E}
+.nav-links a:nth-child(6){background:#FDE9E3;color:#D35400}
+/* ---------- 头图 ---------- */
+header{
+  max-width:1140px;margin:26px auto 10px;padding:0 18px;
+}
+.hero{
+  background:linear-gradient(135deg,#6C5CE7 0%,#8E6CF0 45%,#FD79A8 100%);
+  border-radius:28px;padding:44px 40px 38px;color:#fff;position:relative;overflow:hidden;
+  box-shadow:0 14px 40px rgba(108,92,231,.35);
+}
+.hero::after{content:"🤖";position:absolute;right:26px;top:14px;font-size:110px;opacity:.18;transform:rotate(12deg)}
+.hero h1{font-size:36px;letter-spacing:1px;margin-bottom:8px}
+.hero p.sub{font-size:17px;opacity:.92;margin-bottom:20px}
+.exam-chips{display:flex;gap:12px;flex-wrap:wrap}
+.chip{
+  background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.4);
+  border-radius:16px;padding:10px 16px;font-size:14.5px;line-height:1.5;min-width:200px;
+}
+.chip b{display:block;font-size:16px}
+/* ---------- 通用版块 ---------- */
+section{max-width:1140px;margin:34px auto;padding:0 18px}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.sec-num{
+  width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  font-size:26px;color:#fff;font-weight:800;box-shadow:var(--shadow);flex:none;
+}
+.sec-title{font-size:27px;font-weight:800}
+.sec-desc{color:var(--ink-soft);margin:4px 0 20px 66px;font-size:15.5px}
+.s1 .sec-num{background:var(--c1)} .s2 .sec-num{background:var(--c2)} .s3 .sec-num{background:var(--c3)}
+.s4 .sec-num{background:var(--c4)} .s5 .sec-num{background:var(--c5)} .s6 .sec-num{background:var(--c6)}
+/* ---------- 知识卡片 ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.kcard{
+  background:var(--card);border-radius:var(--radius);padding:20px 22px;
+  box-shadow:var(--shadow);border-top:6px solid var(--c1);transition:.2s;
+}
+.kcard:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(61,54,84,.16)}
+.s2 .kcard{border-top-color:var(--c2)} .s3 .kcard{border-top-color:var(--c3)}
+.s4 .kcard{border-top-color:var(--c4)} .s5 .kcard{border-top-color:var(--c5)}
+.kcard h3{font-size:18.5px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.kcard ul{padding-left:20px}
+.kcard li{margin:3px 0}
+.hl{background:linear-gradient(transparent 62%,#FFE08A 62%);font-weight:700;padding:0 2px}
+.hlg{background:linear-gradient(transparent 62%,#A8F0D1 62%);font-weight:700;padding:0 2px}
+.hlp{background:linear-gradient(transparent 62%,#FBC6E0 62%);font-weight:700;padding:0 2px}
+.formula{
+  display:inline-block;background:#F4F1FF;border:2px dashed #B4A8F5;color:#5A4BD1;
+  font-weight:800;font-size:19px;border-radius:12px;padding:4px 18px;margin:6px 0;
+}
+/* ---------- 提示框 ---------- */
+.tip,.warn,.mnem{
+  border-radius:16px;padding:14px 18px;margin:14px 0;font-size:15.5px;
+}
+.tip{background:#EAF3FF;border-left:6px solid #54A0FF}
+.warn{background:#FFF3E8;border-left:6px solid #FF6B6B}
+.mnem{background:#F4F1FF;border-left:6px solid #A29BFE}
+.tip b,.warn b,.mnem b{display:block;margin-bottom:2px}
+/* ---------- 对比表格 ---------- */
+table.cmp{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin:10px 0;font-size:15.5px}
+table.cmp th{background:var(--c1);color:#fff;padding:10px 14px;text-align:left;font-size:16px}
+table.cmp td{padding:9px 14px;border-bottom:1px solid #F0EBE3;vertical-align:top}
+table.cmp tr:last-child td{border-bottom:none}
+table.cmp tr:nth-child(even) td{background:#FFFBF4}
+/* ---------- 真题卡片 ---------- */
+.qcard{
+  background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:18px 22px;margin:14px 0;border-left:8px solid #FFD166;
+}
+.qcard .qtag{
+  display:inline-block;background:#FFF0DC;color:#D97B1A;font-size:13px;font-weight:700;
+  border-radius:999px;padding:2px 12px;margin-bottom:8px;
+}
+.qcard .qtext{font-weight:600;margin-bottom:8px}
+.qcard .opts{display:grid;grid-template-columns:1fr 1fr;gap:4px 22px;color:var(--ink-soft);font-size:15.5px}
+.ans-btn{
+  margin-top:12px;border:none;cursor:pointer;font-family:inherit;
+  background:linear-gradient(90deg,#FFD166,#FF9F43);color:#7A4A00;font-weight:700;font-size:14.5px;
+  border-radius:999px;padding:7px 20px;transition:.2s;
+}
+.ans-btn:hover{transform:scale(1.05)}
+.ans-box{
+  display:none;margin-top:12px;background:#F0FBF4;border:2px solid #B7E4C7;border-radius:14px;
+  padding:12px 16px;font-size:15.5px;
+}
+.ans-box.show{display:block;animation:pop .3s}
+.ans-box .ans{font-weight:800;color:#1B9E57;font-size:17px}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ---------- 元器件符号 ---------- */
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:8px}
+.sym{
+  background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:14px 10px 10px;text-align:center;
+}
+.sym svg{width:110px;height:56px}
+.sym .nm{font-weight:700;font-size:15px;margin-top:4px}
+.sym .ds{font-size:13px;color:var(--ink-soft)}
+/* ---------- 实操 ---------- */
+.score-bar{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.score-item{flex:1;min-width:180px;background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:16px;text-align:center}
+.score-item .pct{font-size:30px;font-weight:800;color:var(--c5)}
+.score-item .lb{font-size:14.5px;color:var(--ink-soft)}
+.step-flow{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin:14px 0}
+.step{
+  flex:1;min-width:150px;background:#fff;border-radius:16px;box-shadow:var(--shadow);
+  padding:14px;text-align:center;font-weight:700;font-size:15.5px;position:relative;
+}
+.step .emo{font-size:30px;display:block;margin-bottom:4px}
+.step:not(:last-child)::after{content:"➜";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--c5);font-size:20px;z-index:2}
+.basic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.basic-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.basic-card .bc-head{background:linear-gradient(90deg,#00B894,#55D6A9);color:#fff;padding:12px 18px;font-weight:800;font-size:17px}
+.basic-card .bc-body{padding:14px 16px}
+.img-pair{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.img-pair figure{flex:1;min-width:140px;text-align:center}
+.img-pair img{max-width:100%;border-radius:12px;border:2px solid #E8F5F0;cursor:zoom-in;transition:.2s;background:#fff}
+.img-pair img:hover{transform:scale(1.03);border-color:var(--c5)}
+.img-pair figcaption{font-size:13.5px;color:var(--ink-soft);margin-top:4px;font-weight:600}
+/* 真题实操卡 */
+.prac{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin:16px 0;overflow:hidden}
+.prac-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:16px 22px;cursor:pointer;user-select:none;
+  background:linear-gradient(90deg,#E8FBF4,#F4FFFB);
+}
+.prac-head h4{font-size:18px;display:flex;align-items:center;gap:10px}
+.prac-head .yr{background:var(--c5);color:#fff;font-size:13px;border-radius:999px;padding:2px 12px;font-weight:700}
+.prac-head .arrow{transition:.3s;font-size:20px;color:var(--c5)}
+.prac.open .prac-head .arrow{transform:rotate(180deg)}
+.prac-body{display:none;padding:6px 22px 20px}
+.prac.open .prac-body{display:block;animation:pop .3s}
+.prac-body img{max-width:100%;border-radius:12px;border:2px solid #E8F5F0;margin:8px 0;cursor:zoom-in;background:#fff}
+.prac-body .imgrow{display:flex;gap:12px;flex-wrap:wrap}
+.prac-body .imgrow img{flex:1;min-width:220px;object-fit:contain}
+/* ---------- 自测闯关 ---------- */
+.quiz-top{
+  background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 22px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:64px;z-index:50;
+}
+.quiz-top .score{font-size:22px;font-weight:800;color:var(--c6)}
+.quiz-top .bar{flex:1;min-width:140px;height:14px;background:#F6E8E1;border-radius:999px;overflow:hidden}
+.quiz-top .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FFB88A,#E17055);border-radius:999px;transition:width .4s}
+.quiz-top .verdict{font-weight:700;color:var(--ink-soft);font-size:15px}
+.quiz-q{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 22px;margin:14px 0}
+.quiz-q .qt{font-weight:700;font-size:17px;margin-bottom:10px}
+.quiz-q .qt .no{color:var(--c6);margin-right:6px}
+.quiz-q .jtag{font-size:12.5px;background:#FDE9E3;color:#D35400;border-radius:999px;padding:1px 10px;margin-left:8px;font-weight:700}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quiz-opt{
+  border:2.5px solid #EFE9E0;background:#FFFDF9;border-radius:14px;padding:10px 16px;
+  font-size:15.5px;cursor:pointer;transition:.15s;text-align:left;font-family:inherit;color:var(--ink);
+}
+.quiz-opt:hover:not(:disabled){border-color:#FFB88A;transform:translateY(-2px)}
+.quiz-opt:disabled{cursor:default}
+.quiz-opt.right{background:#E9F9EF;border-color:#2ECC71;color:#1B9E57;font-weight:700}
+.quiz-opt.wrong{background:#FDEDEC;border-color:#E74C3C;color:#C0392B}
+.quiz-exp{display:none;margin-top:10px;background:#F8F6FF;border-radius:12px;padding:10px 16px;font-size:14.5px;color:#5A4BD1}
+.quiz-exp.show{display:block;animation:pop .3s}
+/* ---------- 灯箱 ---------- */
+#lightbox{
+  display:none;position:fixed;inset:0;background:rgba(30,25,50,.88);z-index:200;
+  align-items:center;justify-content:center;cursor:zoom-out;padding:24px;
+}
+#lightbox img{max-width:94%;max-height:92%;border-radius:14px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+/* ---------- 返回顶部 / 页脚 ---------- */
+#toTop{
+  position:fixed;right:22px;bottom:22px;width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#6C5CE7,#FD79A8);color:#fff;font-size:22px;box-shadow:0 8px 20px rgba(108,92,231,.4);
+  display:none;z-index:80;transition:.2s;
+}
+#toTop:hover{transform:translateY(-4px)}
+footer{max-width:1140px;margin:40px auto 30px;padding:0 18px;text-align:center;color:var(--ink-soft);font-size:14px}
+footer .heart{font-size:18px}
+@media(max-width:640px){
+  .hero h1{font-size:26px}
+  .quiz-opts{grid-template-columns:1fr}
+  .qcard .opts{grid-template-columns:1fr}
+  .sec-desc{margin-left:0}
+  .quiz-top{position:static}
+}
+@media print{
+  nav,#toTop,#progress,.ans-btn{display:none!important}
+  .ans-box{display:block!important}
+  .prac-body{display:block!important}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">🤖 <span>三级复习乐园</span></div>
+    <div class="nav-links">
+      <a href="#s1">⚡ 电学基础</a>
+      <a href="#s2">🔌 电子元器件</a>
+      <a href="#s3">💻 Arduino 编程</a>
+      <a href="#s4">🤖 机器人基础</a>
+      <a href="#s5">🛠️ 实操专区</a>
+      <a href="#s6">🎯 闯关自测</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="hero">
+    <h1>全国青少年机器人技术等级考试 · 三级</h1>
+    <p class="sub">中国电子学会主办 ｜ 理论知识 + 实际操作 一站式复习 ｜ 适合四五年级同学</p>
+    <div class="exam-chips">
+      <div class="chip"><b>📝 理论考试（100分）</b>单选 20 题 × 4 分 ＋ 多选 5 题 × 2 分 ＋ 判断 5 题 × 2 分</div>
+      <div class="chip"><b>🛠️ 实操考试（100分）</b>器件连接 20 分 ＋ 流程图 20 分 ＋ 功能实现 60 分</div>
+      <div class="chip"><b>🎯 复习路线</b>先看知识卡片 → 再做典型真题 → 最后闯关自测</div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 板块一：电学基础 ================= -->
+<section class="s1" id="s1">
+  <div class="sec-head"><div class="sec-num">⚡</div><div class="sec-title">电学基础</div></div>
+  <p class="sec-desc">理论考试的"大头"，单选、判断题最爱考这些概念，先理解再记忆！</p>
+
+  <div class="grid">
+    <div class="kcard">
+      <h3>🧲 电荷与摩擦起电</h3>
+      <ul>
+        <li><span class="hl">摩擦起电</span>：用摩擦的方法使两个不同的物体带电</li>
+        <li>物体带电的方法：摩擦起电、接触带电、感应起电</li>
+        <li>正电荷：<span class="hl">丝绸</span>摩擦过的<span class="hl">玻璃棒</span></li>
+        <li>负电荷：<span class="hl">毛皮</span>摩擦过的<span class="hl">橡胶棒</span></li>
+        <li>同种电荷相互<span class="hl">排斥</span>，异种电荷相互<span class="hl">吸引</span></li>
+        <li>电荷的多少叫<b>电荷量</b>，单位：<b>库伦（库，C）</b></li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🪵 导体与绝缘体</h3>
+      <ul>
+        <li><b>导体</b>（善于导电）：金属、人体、大地、石墨、酸碱盐溶液、<span class="hl">湿木</span></li>
+        <li><b>绝缘体</b>（不善于导电）：<span class="hl">干木</span>、陶瓷、玻璃、橡胶、油、塑料</li>
+        <li>物质按导电性还可分为：导体、绝缘体、<b>半导体</b>、超导体</li>
+      </ul>
+      <div class="warn"><b>⚠️ 易错</b>潮湿的木头、雨水会导电，是导体；干燥的木棍才是绝缘体！</div>
+    </div>
+    <div class="kcard">
+      <h3>🔋 电流、电压、电阻</h3>
+      <ul>
+        <li><b>电流 I</b>：电荷的定向移动形成电流，单位<b>安培（A）</b></li>
+        <li><b>电压 U</b>：单位<b>伏特（V）</b>，由电源提供</li>
+        <li><b>电阻 R</b>：单位<b>欧姆（Ω）</b>，表示导体对电流的阻碍作用</li>
+        <li>电流方向 = <span class="hl">正电荷</span>定向移动的方向</li>
+        <li>在电源外部，电流从<span class="hl">正极流向负极</span></li>
+      </ul>
+      <div class="warn"><b>⚠️ 易错</b>电流方向与电子（负电荷）移动方向<b>相反</b>！电阻是导体本身的性质，电压为 0 时电阻<b>不为 0</b>。</div>
+    </div>
+    <div class="kcard">
+      <h3>📐 欧姆定律</h3>
+      <p>导体中的电流，跟电压成<b>正比</b>，跟电阻成<b>反比</b>。</p>
+      <div style="text-align:center"><span class="formula">I = U ÷ R</span></div>
+      <ul>
+        <li>电压越大 → 电流越大；电阻越大 → 电流越小</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🔀 电路的三种状态</h3>
+      <ul>
+        <li><b>通路</b>：处处连通，有电流通过 ✅</li>
+        <li><b>断路</b>（开路）：电路断开，没有电流 ⛔</li>
+        <li><b>短路</b>：导线直接接通电源两极，电流很大，<span class="hl">可能烧坏电源，绝对不允许</span> 🔥</li>
+      </ul>
+      <div class="warn"><b>⚠️ 易错</b>短路<b>不是</b>正常的电路状态！</div>
+    </div>
+    <div class="kcard">
+      <h3>🧩 电路的组成与电流条件</h3>
+      <ul>
+        <li>基础电路四要素：<span class="hl">电源、用电器、开关、导线</span>（电压表不是必要元素）</li>
+        <li>电流产生三条件：① 有自由电荷 ② 导体两端有电压差 ③ 形成闭合回路</li>
+        <li>电路搭设时<span class="hl">不能带电插拔</span>元器件</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>📏 电流表与电压表</h3>
+      <ul>
+        <li>测电流：电流表 <span class="hl">串联</span> 在电路中</li>
+        <li>测电压：电压表 <span class="hl">并联</span> 在用电器两端</li>
+      </ul>
+      <div class="mnem"><b>🎵 口诀</b>"流串压并" —— 电流表串联，电压表并联。</div>
+    </div>
+    <div class="kcard">
+      <h3>🔋 电池与安全电压</h3>
+      <ul>
+        <li>1 节干电池 = 1.5V；两节<span class="hl">串联</span> = 3V（电压相加）</li>
+        <li>两节<span class="hl">并联</span> = 仍是 1.5V（电压不变）</li>
+        <li>我国家庭电路电压：<b>220V</b></li>
+        <li>人体安全电压：一般不高于 <span class="hl">36V</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">⚖️ 串联 vs 并联（必考对比）</h3>
+  <table class="cmp">
+    <tr><th style="width:110px">对比项</th><th>串联电路</th><th>并联电路</th></tr>
+    <tr><td><b>回路</b></td><td>只有一条回路，无分支</td><td>有多条回路（支路）</td></tr>
+    <tr><td><b>电流</b></td><td>处处相等</td><td>干路电流 = 各支路电流之和</td></tr>
+    <tr><td><b>电压</b></td><td>总电压 = 各用电器电压之和（分压）</td><td>各支路电压相等</td></tr>
+    <tr><td><b>互相影响</b></td><td>一处断开，整个电路都断</td><td>一条支路断开，不影响其他支路</td></tr>
+    <tr><td><b>生活例子</b></td><td>节日小彩灯</td><td>家用电器（电灯、冰箱、电脑）都是并联</td></tr>
+  </table>
+  <div class="mnem"><b>🎵 口诀</b>"串联电流处处等，并联电压处处等；串联一断全都断，并联各干各的活。"</div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">📝 典型真题</h3>
+  <div class="qcard">
+    <span class="qtag">单选 · 电流概念</span>
+    <p class="qtext">下列关于电的描述不正确的是（　）</p>
+    <div class="opts"><span>A. 电荷发生定向移动形成电流</span><span>B. 电源是形成电流的条件之一</span><span>C. 在电源的外部，电流从正极流向负极</span><span>D. 电流的移动方向与电子的移动方向相同</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：D</span><br>电流方向规定为<b>正电荷</b>定向移动的方向，电子带负电，所以电流方向与电子移动方向<b>相反</b>。</div>
+  </div>
+  <div class="qcard">
+    <span class="qtag">单选 · 串并联</span>
+    <p class="qtext">以下对并联电路的叙述错误的是（　）</p>
+    <div class="opts"><span>A. 并联电路有多个回路</span><span>B. 并联电路干路电流等于各支路电流之和</span><span>C. 并联电路中如果有一处支路断开，整个电路都断开</span><span>D. 并联电路中总电阻小于各支路电阻</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：C</span><br>并联电路各支路互不影响，一条支路断开，其他支路照常工作。"一断全断"是<b>串联</b>的特点。</div>
+  </div>
+  <div class="qcard">
+    <span class="qtag">单选 · 电阻性质</span>
+    <p class="qtext">下列关于电阻叙述正确的是（　）</p>
+    <div class="opts"><span>A. 电路两端的电压越大，电阻就越大</span><span>B. 通过导体的电流减小，电阻就增大</span><span>C. 导体的电阻跟电压成正比，跟电流成反比</span><span>D. 电阻表示导体对电流阻碍的性质，不随电压、电流的改变而改变</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：D</span><br>电阻是导体本身的性质（由材料、长度、粗细决定），电压电流怎么变，电阻都不变。</div>
+  </div>
+</section>
+
+<!-- ================= 板块二：电子元器件 ================= -->
+<section class="s2" id="s2">
+  <div class="sec-head"><div class="sec-num">🔌</div><div class="sec-title">电子元器件</div></div>
+  <p class="sec-desc">认识这些"小零件"的脾气，电路题和实操题都少不了它们。</p>
+
+  <div class="grid">
+    <div class="kcard">
+      <h3>➡️ 二极管</h3>
+      <ul>
+        <li>加<span class="hlg">正向电压</span>才导通，加反向电压就截止 —— 这叫<b>单向导电性</b></li>
+        <li>理想二极管：正向电阻 ≈ 0，<span class="hlg">反向电阻 = 无穷大</span></li>
+        <li>属于半导体元器件</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>💡 LED（发光二极管）</h3>
+      <ul>
+        <li>中文名"发光二极管"，是半导体元器件，<b>单向导通</b></li>
+        <li><span class="hlg">区分极性</span>：长脚是正极，短脚是负极</li>
+        <li>直径 10mm 的 LED 工作电压约 <b>1.7V ~ 3V</b></li>
+        <li>直接接主控板（5V）针脚时，要<span class="hlg">串联一个电阻分压</span>，否则容易烧坏</li>
+      </ul>
+      <div class="warn"><b>⚠️ 易错</b>"LED 不区分极性"是<b>错误</b>说法，考试常考！</div>
+    </div>
+    <div class="kcard">
+      <h3>🔺 三极管</h3>
+      <ul>
+        <li>主要作用：<span class="hlg">放大电流</span></li>
+        <li>也可当作电子开关使用</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🎛️ 电位器</h3>
+      <ul>
+        <li>本质是一个<b>可变电阻</b>，旋转旋钮改变阻值</li>
+        <li>接模拟输入口，返回值范围 <span class="hlg">0 ~ 1023</span></li>
+        <li>实操"常客"：控制 LED 亮度、舵机角度、蜂鸣器频率</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🔋 电源标识</h3>
+      <ul>
+        <li>常见电源符号标识：<b>+</b>、<b>V</b>、<b>VCC</b>、<b>VEE</b></li>
+        <li>GND 表示接地（负极）</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🐝 蜂鸣器 & 舵机</h3>
+      <ul>
+        <li><b>蜂鸣器</b>：发声的执行器，可以设定发声频率</li>
+        <li><b>舵机</b>：可以转到指定角度（0°~180°）的执行器</li>
+        <li>它们都是<span class="hlg">执行器</span>，不是传感器</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">🔣 常见电路符号（考试会认图）</h3>
+  <div class="sym-grid">
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="28" x2="40" y2="28" stroke="#3D3654" stroke-width="2.5"/><line x1="40" y1="12" x2="40" y2="44" stroke="#3D3654" stroke-width="5"/><line x1="52" y1="20" x2="52" y2="36" stroke="#3D3654" stroke-width="2.5"/><line x1="52" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/><text x="34" y="10" font-size="11" fill="#3D3654">+</text><text x="50" y="10" font-size="11" fill="#3D3654">−</text></svg>
+      <div class="nm">电源（电池）</div><div class="ds">长线正极，短线负极</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="28" x2="25" y2="28" stroke="#3D3654" stroke-width="2.5"/><rect x="25" y="18" width="60" height="20" fill="none" stroke="#3D3654" stroke-width="2.5"/><line x1="85" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/></svg>
+      <div class="nm">电阻</div><div class="ds">长方形（或锯齿形）</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="28" x2="30" y2="28" stroke="#3D3654" stroke-width="2.5"/><circle cx="33" cy="28" r="3" fill="#3D3654"/><line x1="36" y1="28" x2="72" y2="12" stroke="#3D3654" stroke-width="2.5"/><circle cx="75" cy="28" r="3" fill="#3D3654"/><line x1="78" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/></svg>
+      <div class="nm">开关</div><div class="ds">断开状态的跷板</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="28" x2="38" y2="28" stroke="#3D3654" stroke-width="2.5"/><polygon points="38,16 38,40 66,28" fill="none" stroke="#3D3654" stroke-width="2.5"/><line x1="66" y1="16" x2="66" y2="40" stroke="#3D3654" stroke-width="2.5"/><line x1="66" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/></svg>
+      <div class="nm">二极管</div><div class="ds">三角形 + 竖线</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="32" x2="34" y2="32" stroke="#3D3654" stroke-width="2.5"/><polygon points="34,20 34,44 62,32" fill="none" stroke="#3D3654" stroke-width="2.5"/><line x1="62" y1="20" x2="62" y2="44" stroke="#3D3654" stroke-width="2.5"/><line x1="62" y1="32" x2="105" y2="32" stroke="#3D3654" stroke-width="2.5"/><line x1="44" y1="18" x2="54" y2="8" stroke="#E17055" stroke-width="2"/><polygon points="54,8 48,9 51,14" fill="#E17055"/><line x1="56" y1="20" x2="66" y2="10" stroke="#E17055" stroke-width="2"/><polygon points="66,10 60,11 63,16" fill="#E17055"/></svg>
+      <div class="nm">LED</div><div class="ds">二极管 + 两道向外的光</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="28" x2="39" y2="28" stroke="#3D3654" stroke-width="2.5"/><circle cx="55" cy="28" r="16" fill="none" stroke="#3D3654" stroke-width="2.5"/><text x="48" y="34" font-size="16" font-weight="bold" fill="#3D3654">A</text><line x1="71" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/></svg>
+      <div class="nm">电流表</div><div class="ds">圆圈里的 A</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><circle cx="55" cy="28" r="16" fill="none" stroke="#3D3654" stroke-width="2.5"/><text x="49" y="33" font-size="14" fill="#3D3654">V</text><line x1="5" y1="28" x2="39" y2="28" stroke="#3D3654" stroke-width="2.5"/><line x1="71" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/></svg>
+      <div class="nm">电压表</div><div class="ds">圆圈里的 V</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="5" y1="28" x2="39" y2="28" stroke="#3D3654" stroke-width="2.5"/><circle cx="55" cy="28" r="16" fill="none" stroke="#3D3654" stroke-width="2.5"/><text x="47" y="34" font-size="16" font-weight="bold" fill="#3D3654">M</text><line x1="71" y1="28" x2="105" y2="28" stroke="#3D3654" stroke-width="2.5"/></svg>
+      <div class="nm">电动机</div><div class="ds">圆圈里的 M</div>
+    </div>
+  </div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">📝 典型真题</h3>
+  <div class="qcard">
+    <span class="qtag">单选 · LED 特性</span>
+    <p class="qtext">以下对 LED 的叙述错误的是（　）</p>
+    <div class="opts"><span>A. LED 是一种半导体元器件</span><span>B. LED 不区分极性</span><span>C. LED 是单向导通的</span><span>D. LED 中文称为发光二极管</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：B</span><br>LED 是二极管的一种，<b>区分正负极</b>（长正短负），接反了不亮。</div>
+  </div>
+  <div class="qcard">
+    <span class="qtag">单选 · 电路必要元素</span>
+    <p class="qtext">以下电路组成元素中，不属于必要元素的是（　）</p>
+    <div class="opts"><span>A. 电源</span><span>B. 用电器</span><span>C. 开关</span><span>D. 电压表</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：D</span><br>基础电路只需要<b>电源、用电器、开关、导线</b>四样，电压表只是测量工具。</div>
+  </div>
+</section>
+
+<!-- ================= 板块三：Arduino 编程 ================= -->
+<section class="s3" id="s3">
+  <div class="sec-head"><div class="sec-num">💻</div><div class="sec-title">Arduino UNO 编程知识</div></div>
+  <p class="sec-desc">三级考试的核心主控板，理论 + 实操都围绕它出题。</p>
+
+  <div class="grid">
+    <div class="kcard">
+      <h3>🧠 认识主控板</h3>
+      <ul>
+        <li>型号：Arduino <b>UNO / Nano</b>，相当于机器人的<span class="hlp">大脑</span></li>
+        <li>处理器：<b>ATmega328P</b>，主频 <span class="hlp">16MHz</span></li>
+        <li>工作电压：<b>5V</b></li>
+        <li>存储设备：<b>SRAM、Flash、EEPROM</b>（CPU、GPIO 不是存储设备）</li>
+        <li>Arduino 是<b>开源</b>软硬件平台，源于<b>意大利</b>，主控板有<b>多种型号</b></li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>📍 引脚（管脚）</h3>
+      <ul>
+        <li>数字引脚：<b>0 ~ 13</b> 号，可设输入或输出模式</li>
+        <li>模拟输入引脚：<b>A0 ~ A5</b>（也能当数字引脚用）</li>
+        <li>支持 <span class="hlp">PWM</span> 的引脚：<b>3、5、6、9、10、11</b>（板上有 ~ 标识）</li>
+        <li>数字输入三种模式：输入、输出、<b>内部上拉输入</b></li>
+      </ul>
+      <div class="mnem"><b>🎵 口诀</b>PWM 六兄弟：3、5、6、9、10、11。</div>
+    </div>
+    <div class="kcard">
+      <h3>〰️ 电平与信号</h3>
+      <ul>
+        <li>低电平：<b>-0.5V ~ 1.5V</b>，用 <b>0</b> 表示</li>
+        <li>高电平：<b>3.5V ~ 5.5V</b>，用 <b>1</b> 表示</li>
+        <li>介于两者之间 → 信号<b>不稳定</b>（0 和 1 乱跳）</li>
+        <li>数字信号：只有 0 / 1 两种（如按键）</li>
+        <li>模拟输入：连续变化，范围 <span class="hlp">0 ~ 1023</span>（如电位器、光敏电阻）</li>
+        <li>模拟输出（PWM）：范围 <span class="hlp">0 ~ 255</span></li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🌊 PWM 是什么</h3>
+      <ul>
+        <li>PWM：在数字系统中，通过调整<span class="hlp">占空比</span>来实现"模拟输出"的效果</li>
+        <li>占空比越大，等效电压越高（50% ≈ 2.5V）</li>
+        <li>应用：LED 调亮度、呼吸灯、电机调速</li>
+      </ul>
+      <div class="warn"><b>⚠️ 易错</b>PWM 是"模拟<b>输出</b>"，A0~A5 才是模拟<b>输入</b>，别搞反！</div>
+    </div>
+    <div class="kcard">
+      <h3>🏗️ 三种程序结构</h3>
+      <ul>
+        <li><b>顺序结构</b>：从上往下依次执行</li>
+        <li><b>选择结构</b>：如果……就……（如果 / 否则如果 / 否则）</li>
+        <li><b>循环结构</b>：重复执行（重复执行、循环 n 次、当满足条件时循环）</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🔣 流程图符号（必考认图）</h3>
+      <ul>
+        <li><b>圆角矩形</b> ＝ 开始 / 结束</li>
+        <li><b>平行四边形</b> ＝ 输入 / 输出</li>
+        <li><b>矩形</b> ＝ 处理（计算、赋值）</li>
+        <li><b>菱形</b> ＝ 判断（是 / 否分支）</li>
+        <li><b>箭头</b> ＝ 流程线</li>
+      </ul>
+      <div class="mnem"><b>🎵 口诀</b>"圆角开始平行四边读，矩形干活菱形问。"</div>
+    </div>
+    <div class="kcard">
+      <h3>📦 数据类型</h3>
+      <ul>
+        <li><b>布尔型</b>：0 或 1（1 字节）</li>
+        <li><b>字符型</b>：-128 ~ 127（1 字节）</li>
+        <li><b>字节型</b>：0 ~ 255（1 字节）</li>
+        <li><b>整型</b>：2 字节　<b>长整型</b>：4 字节</li>
+        <li>ASCII 码：小写 <span class="hlp">a = 97</span>（把字符存进整型变量，打印出来是数字）</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🔧 常用编程模块</h3>
+      <ul>
+        <li><b>数字输入</b>：读按键等，返回 0 / 1</li>
+        <li><b>数字输出</b>：设为高 / 低电平，控制 LED 亮灭</li>
+        <li><b>模拟输入</b>：读电位器、光敏等，返回 0~1023</li>
+        <li><b>模拟输出</b>：PWM 输出 0~255，调亮度</li>
+        <li><b>映射</b>：把一个范围换算成另一个范围（如 0~1023 → 0~255）</li>
+        <li><b>约束</b>：把数值限制在最小值和最大值之间</li>
+        <li><b>串口监视器</b>：Serial 打印，用来查看传感器的值、调试程序</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>➕ 变量与逻辑运算</h3>
+      <ul>
+        <li>变量是"存数据的小盒子"，程序运行中值<span class="hlp">可以改变</span></li>
+        <li>逻辑与 <b>&amp;&amp;</b>：两个条件都成立才为真</li>
+        <li>逻辑或 <b>||</b>：任意一个成立就为真</li>
+        <li>逻辑非 <b>!</b>：真假颠倒</li>
+        <li>判断条件中，真 = 1，假 = 0</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🎚️ 上拉 / 下拉电阻（老师补充讲解点）</h3>
+      <ul>
+        <li>按键没按下时，引脚"悬空"，读数会乱跳</li>
+        <li><b>上拉电阻</b>：把引脚默认"拉"到高电平（1）</li>
+        <li><b>下拉电阻</b>：把引脚默认"拉"到低电平（0）</li>
+        <li>作用：让按键输入<b>稳定可靠</b>，不受干扰</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>🦾 舵机小知识</h3>
+      <ul>
+        <li>舵机角度范围：0° ~ 180°</li>
+        <li>舵机<span class="hlp">不是只能</span>接 PWM 引脚（普通数字引脚也可以）</li>
+        <li>电位器（0~1023）→ 映射 → 舵机角度（0~180）是经典考法</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">🔣 流程图符号（必考认图）</h3>
+  <div class="sym-grid">
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><rect x="15" y="14" width="80" height="28" rx="14" fill="#F4F1FF" stroke="#6C5CE7" stroke-width="2.5"/><text x="38" y="33" font-size="14" fill="#3D3654">开始</text></svg>
+      <div class="nm">开始 / 结束</div><div class="ds">圆角矩形</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><polygon points="28,14 95,14 82,42 15,42" fill="#F4F1FF" stroke="#6C5CE7" stroke-width="2.5"/><text x="38" y="33" font-size="14" fill="#3D3654">输入</text></svg>
+      <div class="nm">输入 / 输出</div><div class="ds">平行四边形</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><rect x="20" y="14" width="70" height="28" fill="#F4F1FF" stroke="#6C5CE7" stroke-width="2.5"/><text x="38" y="33" font-size="14" fill="#3D3654">处理</text></svg>
+      <div class="nm">处理</div><div class="ds">矩形（计算、赋值）</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><polygon points="55,5 96,28 55,51 14,28" fill="#F4F1FF" stroke="#6C5CE7" stroke-width="2.5"/><text x="41" y="33" font-size="14" fill="#3D3654">判断</text></svg>
+      <div class="nm">判断</div><div class="ds">菱形（是 / 否分支）</div>
+    </div>
+    <div class="sym">
+      <svg viewBox="0 0 110 56"><line x1="12" y1="28" x2="88" y2="28" stroke="#6C5CE7" stroke-width="2.5"/><polygon points="88,28 76,22 76,34" fill="#6C5CE7"/></svg>
+      <div class="nm">流程线</div><div class="ds">带箭头的线</div>
+    </div>
+  </div>
+  <div class="mnem"><b>🎵 口诀</b>"圆角开始平行四边读，矩形干活菱形问。"——看到<b>菱形</b>就是选择 / 判断结构！</div>
+
+  <h3 style="margin:24px 0 6px;font-size:20px">🔡 ASCII 码速查表</h3>
+  <p style="color:var(--ink-soft);font-size:15px;margin-bottom:6px">电脑里每个字符都对应一个数字，这个数字就是 ASCII 码。只要记住三个"起点"，其他都能推出来 👇</p>
+  <table class="cmp">
+    <tr><th style="background:var(--c3)">字符</th><th style="background:var(--c3)">ASCII 码</th><th style="background:var(--c3)">规律</th></tr>
+    <tr><td><b>0</b>（数字零）</td><td><b>48</b></td><td>数字的起点</td></tr>
+    <tr><td>1 ~ 9</td><td>49 ~ 57</td><td>在 48 的基础上依次 +1</td></tr>
+    <tr><td><b>A</b>（大写）</td><td><b>65</b></td><td>大写字母的起点</td></tr>
+    <tr><td>B ~ Z</td><td>66 ~ 90</td><td>在 65 的基础上依次 +1</td></tr>
+    <tr style="background:#FFF6D9"><td><b>a</b>（小写）⭐</td><td><b>97</b></td><td>小写字母的起点，<b>真题考过！</b></td></tr>
+    <tr><td>b ~ z</td><td>98 ~ 122</td><td>在 97 的基础上依次 +1</td></tr>
+  </table>
+  <div class="mnem"><b>🎵 口诀</b>"0 是 48，A 是 65，a 是 97"——小写比大写大 32（a − A = 32）。</div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">📝 典型真题</h3>
+  <div class="qcard">
+    <span class="qtag">单选 · 数据类型 / ASCII</span>
+    <p class="qtext">变量声明中将字符 a 赋值给整型变量 c，通过串口监视器打印 c，看到的可能是（　）</p>
+    <div class="opts"><span>A. 无输出</span><span>B. 输出字符 a</span><span>C. 数字 97</span><span>D. 程序报错</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：C</span><br>字符在电脑里用 ASCII 码保存，小写 a 的 ASCII 码是 <b>97</b>，整型变量打印出来就是数字 97。</div>
+  </div>
+  <div class="qcard">
+    <span class="qtag">单选 · 模拟输入范围</span>
+    <p class="qtext">利用光敏电阻传感器向 Arduino 模拟输入 A3 口发送信息，下列值可能是返回值的是（　）</p>
+    <div class="opts"><span>A. -128</span><span>B. 256</span><span>C. -52</span><span>D. 1024</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：B</span><br>模拟输入的范围是 <b>0 ~ 1023</b>，四个选项里只有 256 在这个范围内（1024 超界了）。</div>
+  </div>
+  <div class="qcard">
+    <span class="qtag">单选 · 主控板参数</span>
+    <p class="qtext">Arduino UNO 主控板采用 ATmega328P-PU 处理器，该处理器的主频为（　）</p>
+    <div class="opts"><span>A. 4MHz</span><span>B. 8MHz</span><span>C. 16MHz</span><span>D. 32MHz</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：C</span><br>UNO / Nano 的"心跳"是 <b>16MHz</b>，记牢这个数字。</div>
+  </div>
+</section>
+
+<!-- ================= 板块四：机器人基础 ================= -->
+<section class="s4" id="s4">
+  <div class="sec-head"><div class="sec-num">🤖</div><div class="sec-title">机器人基础</div></div>
+  <p class="sec-desc">机器人的"身体构造"，常和传感器、执行器一起考。</p>
+
+  <div class="grid">
+    <div class="kcard">
+      <h3>🦴 机器人四大组成部分</h3>
+      <ul>
+        <li><b>控制器</b> → 相当于<span class="hlp">大脑</span>（Arduino 主控板）</li>
+        <li><b>传感器</b> → 相当于<span class="hlp">眼睛、耳朵等感觉器官</span></li>
+        <li><b>执行器</b> → 相当于<span class="hlp">肌肉</span>（舵机、电机、LED、蜂鸣器）</li>
+        <li><b>结构体</b> → 相当于<span class="hlp">躯干</span>（支架、外壳）</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>👀 常见传感器（输入）</h3>
+      <ul>
+        <li><b>超声波传感器</b>：测距离，相当于机器人的<span class="hlp">眼睛</span></li>
+        <li><b>光敏电阻</b>：感知光线强弱（模拟输入）</li>
+        <li><b>声音传感器</b>：感知声音（模拟输入）</li>
+        <li><b>电位器</b>：旋钮位置（模拟输入）</li>
+        <li><b>按键开关</b>：按下 / 松开（<b>数字</b>输入）</li>
+        <li><b>红外接收模块</b>：接收遥控器信号</li>
+      </ul>
+    </div>
+    <div class="kcard">
+      <h3>💪 常见执行器（输出）</h3>
+      <ul>
+        <li>LED 灯 —— 发光</li>
+        <li>蜂鸣器 —— 发声</li>
+        <li>舵机 —— 转到指定角度</li>
+        <li>电机 —— 持续转动</li>
+      </ul>
+      <div class="warn"><b>⚠️ 易错</b>按键开关是<b>输入设备（传感器）</b>，不是执行器！</div>
+    </div>
+    <div class="kcard">
+      <h3>💭 关于机器人的说法</h3>
+      <ul>
+        <li>机器人 = 控制器 + 执行器 + 传感器 + 结构体 ✅</li>
+        <li>机器人<span class="hlp">不一定</span>有人的外形</li>
+        <li>机器人可以编程控制，<b>也可以遥控</b></li>
+        <li>机器人<span class="hlp">不一定</span>要有人工智能</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">📝 典型真题</h3>
+  <div class="qcard">
+    <span class="qtag">单选 · 机器人组成</span>
+    <p class="qtext">下列选项中，Arduino 控制板相当于机器人的（　）</p>
+    <div class="opts"><span>A. 躯干</span><span>B. 大脑</span><span>C. 神经</span><span>D. 肌肉</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：B</span><br>控制板负责"思考"和"发号施令"，相当于机器人的<b>大脑</b>。</div>
+  </div>
+  <div class="qcard">
+    <span class="qtag">多选 · 传感器与执行器</span>
+    <p class="qtext">下列器件中，通常用做模拟输入的有（　）</p>
+    <div class="opts"><span>A. 按键开关</span><span>B. 光敏电阻</span><span>C. 声音传感器</span><span>D. 电位器</span></div>
+    <button class="ans-btn" onclick="toggleAns(this)">🔑 点击看答案</button>
+    <div class="ans-box"><span class="ans">答案：BCD</span><br>光敏、声音、电位器的值都是连续变化的（0~1023），属于模拟输入；按键只有开 / 关两种状态，是<b>数字</b>输入。</div>
+  </div>
+</section>
+
+<!-- ================= 板块五：实操专区 ================= -->
+<section class="s5" id="s5">
+  <div class="sec-head"><div class="sec-num">🛠️</div><div class="sec-title">实操专区</div></div>
+  <p class="sec-desc">实操考 1 道大题：现场搭建电路 + 画流程图 + 编程实现功能，100 分这样分布 👇</p>
+
+  <div class="score-bar">
+    <div class="score-item"><div class="pct">20分</div><div class="lb">🔌 器件及器件连接<br>接对每一个模块</div></div>
+    <div class="score-item"><div class="pct">20分</div><div class="lb">📊 流程图绘制及功能<br>符号正确、有闭环、整齐清晰</div></div>
+    <div class="score-item"><div class="pct">60分</div><div class="lb">⚙️ 功能实现<br>每实现一个功能点得 10 分</div></div>
+  </div>
+
+  <div class="warn">
+    <b>🚨 考场纪律（违反直接 0 分！）</b>
+    ① 编程时<b>不得打开任何示例程序</b>；② 程序压缩为 zip / rar（5M 以内），命名为 <b>DJKS3_身份证号</b>；③ 通过"上传附件"按钮提交。
+  </div>
+
+  <h3 style="margin:22px 0 6px;font-size:20px">🪄 实操万能四步法</h3>
+  <div class="step-flow">
+    <div class="step"><span class="emo">📥</span>读传感器<br><small style="font-weight:400;color:var(--ink-soft)">电位器 / 超声波 / 按键</small></div>
+    <div class="step"><span class="emo">📦</span>存进变量<br><small style="font-weight:400;color:var(--ink-soft)">给数据起个名字</small></div>
+    <div class="step"><span class="emo">🔀</span>映射 / 约束<br><small style="font-weight:400;color:var(--ink-soft)">0~1023 → 需要的范围</small></div>
+    <div class="step"><span class="emo">🎬</span>控制执行器<br><small style="font-weight:400;color:var(--ink-soft)">LED / 舵机 / 蜂鸣器</small></div>
+  </div>
+  <div class="tip"><b>💡 调试小妙招</b>别忘了用<b>串口监视器</b>打印传感器的值，很多真题（如超声波测距）明确要求把距离显示在串口监视器上，白送的分！</div>
+
+  <h3 style="margin:24px 0 10px;font-size:20px">🏋️ 四大基本功训练（先练熟这些！）</h3>
+  <div class="basic-grid">
+    <div class="basic-card">
+      <div class="bc-head">① 电位器控制 LED 亮度</div>
+      <div class="bc-body">
+        <div class="img-pair">
+          <figure><img src="images/flow_led_brightness.png" alt="流程图：电位器控制LED亮度" onclick="zoom(this)"><figcaption>流程图</figcaption></figure>
+          <figure><img src="images/prog_led_brightness.png" alt="程序：电位器控制LED亮度" onclick="zoom(this)"><figcaption>程序（模拟输入→映射→模拟输出）</figcaption></figure>
+        </div>
+      </div>
+    </div>
+    <div class="basic-card">
+      <div class="bc-head">② 电位器控制 LED 闪烁频率</div>
+      <div class="bc-body">
+        <div class="img-pair">
+          <figure><img src="images/flow_led_blink.png" alt="流程图：电位器控制LED闪烁频率" onclick="zoom(this)"><figcaption>流程图</figcaption></figure>
+          <figure><img src="images/prog_led_blink.png" alt="程序：电位器控制LED闪烁频率" onclick="zoom(this)"><figcaption>程序（电位器值→延时时间）</figcaption></figure>
+        </div>
+      </div>
+    </div>
+    <div class="basic-card">
+      <div class="bc-head">③ 电位器控制呼吸灯频率</div>
+      <div class="bc-body">
+        <div class="img-pair">
+          <figure><img src="images/flow_led_breath.png" alt="流程图：电位器控制呼吸灯频率" onclick="zoom(this)"><figcaption>流程图</figcaption></figure>
+          <figure><img src="images/prog_led_breath.png" alt="程序：电位器控制呼吸灯频率" onclick="zoom(this)"><figcaption>程序（渐亮渐暗 + 电位器调速）</figcaption></figure>
+        </div>
+      </div>
+    </div>
+    <div class="basic-card">
+      <div class="bc-head">④ 电位器控制舵机摆动速度（45°~135°）</div>
+      <div class="bc-body">
+        <div class="img-pair">
+          <figure><img src="images/flow_servo.png" alt="流程图：电位器控制舵机摆动速度" onclick="zoom(this)"><figcaption>流程图</figcaption></figure>
+          <figure><img src="images/prog_servo.png" alt="程序：电位器控制舵机摆动速度" onclick="zoom(this)"><figcaption>程序（舵机角度 + 电位器控速）</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin:26px 0 10px;font-size:20px">📜 历年实操真题回顾（点击展开）</h3>
+
+  <div class="prac open">
+    <div class="prac-head" onclick="this.parentElement.classList.toggle('open')">
+      <h4><span class="yr">2026.6 最新</span>🚨 红外遥控警报装置</h4><span class="arrow">▼</span>
+    </div>
+    <div class="prac-body">
+      <p><b>器件：</b>Atmega328P 主控板、超声波传感器、LED 灯、蜂鸣器、红外接收套件。</p>
+      <p><b>任务：</b>三种工作模式 —— 遥控器按 <b>1</b>＝关闭（LED 灭、蜂鸣器静音）；按 <b>2</b>＝短距离模式（反应距离 5cm）；按 <b>3</b>＝长距离模式（反应距离 10cm）。障碍物进入反应距离内时，LED 闪烁 + 蜂鸣器发声，且<b>越靠近频率越快</b>。</p>
+      <p><b>解题关键：</b>用一个变量 mode 保存当前模式（0 / 5 / 10），红外按键切换 mode；超声波测距 dist 与 mode 比较；报警频率用"映射"实现——距离越近，延时越短、频率越高。</p>
+      <div class="imgrow">
+        <img src="images/shicao2026_ir_2.png" alt="器件清单" onclick="zoom(this)">
+        <img src="images/shicao2026_ir_3.png" alt="接线示意图" onclick="zoom(this)">
+      </div>
+      <div class="imgrow">
+        <img src="images/shicao2026_ir_5.jpeg" alt="参考流程图" onclick="zoom(this)">
+        <img src="images/shicao2026_ir_6.png" alt="参考程序" onclick="zoom(this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="prac">
+    <div class="prac-head" onclick="this.parentElement.classList.toggle('open')">
+      <h4><span class="yr">2021.6</span>📏 距离指示器</h4><span class="arrow">▼</span>
+    </div>
+    <div class="prac-body">
+      <p><b>器件：</b>LED 灯模块 2 个（LED_A、LED_B）、超声波传感器 1 个、舵机 1 个。</p>
+      <p><b>任务：</b>超声波检测距离，控制舵机角度和 LED 亮灭，并把距离显示在串口监视器。距离 10cm 时舵机 90°、两灯均灭；距离 5cm 时舵机 0°、LED_A 闪烁、LED_B 熄灭；距离变化时舵机角度和灯光跟着渐变。</p>
+      <p><b>解题关键：</b>先把距离<b>约束</b>在 5~15 之间，再<b>映射</b>到舵机 0~180°；LED 亮度用映射实现渐变，闪烁用"亮→延时→灭→延时"。</p>
+      <img src="images/shicao6_distance_4.png" alt="参考流程图" onclick="zoom(this)">
+      <div class="imgrow">
+        <img src="images/shicao6_distance_7.png" alt="程序：变量与舵机部分" onclick="zoom(this)">
+        <img src="images/shicao6_distance_6.png" alt="程序：LED控制部分" onclick="zoom(this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="prac">
+    <div class="prac-head" onclick="this.parentElement.classList.toggle('open')">
+      <h4><span class="yr">2021.3</span>📡 超声波测距</h4><span class="arrow">▼</span>
+    </div>
+    <div class="prac-body">
+      <p><b>器件：</b>LED 灯模块 3 个、超声波传感器 1 个。</p>
+      <p><b>任务：</b>障碍物距离大于 30cm 时 3 盏灯全灭；距离逐渐接近时，3 盏 LED 灯<b>依次点亮</b>；远离时依次熄灭；距离值显示在串口监视器上。</p>
+      <p><b>解题关键：</b>用"如果 / 否则如果"按距离分段（如 &gt;30、20~30、10~20、0~10），每段点亮不同数量的灯。</p>
+      <div class="imgrow">
+        <img src="images/shicao5_ultra_2.png" alt="题目要求" onclick="zoom(this)">
+        <img src="images/shicao5_ultra_3.png" alt="参考程序" onclick="zoom(this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="prac">
+    <div class="prac-head" onclick="this.parentElement.classList.toggle('open')">
+      <h4><span class="yr">2020.12</span>💡 被电位器控制的呼吸灯</h4><span class="arrow">▼</span>
+    </div>
+    <div class="prac-body">
+      <p><b>任务：</b>按下按键后 LED 开始"呼吸"（渐亮再渐暗），电位器控制呼吸的快慢；松开按键，LED 熄灭。</p>
+      <p><b>解题关键：</b>两个循环（i 从 0→255 渐亮、255→0 渐暗），循环里随时读取按键，松开就"跳出循环"；电位器的值映射到 10~100 作为延时时间。</p>
+      <div class="imgrow">
+        <img src="images/shicao1_breath_3.jpeg" alt="参考流程图" onclick="zoom(this)">
+        <img src="images/shicao1_breath_4.png" alt="参考程序" onclick="zoom(this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="prac">
+    <div class="prac-head" onclick="this.parentElement.classList.toggle('open')">
+      <h4><span class="yr">2019.12</span>🔴 抢答器</h4><span class="arrow">▼</span>
+    </div>
+    <div class="prac-body">
+      <p><b>任务：</b>两个按键（选手 1、选手 2）+ 红、黄两盏 LED + 蜂鸣器。开机蜂鸣器响 100 毫秒提示开始；谁先按下按键，对应的灯就亮；两人同时按下则都灭。</p>
+      <p><b>解题关键：</b>两个按键值分别存进变量 key01、key02，用"逻辑与 &amp;&amp;"组合判断四种情况（都按 / 1 按 2 没按 / 1 没按 2 按）。</p>
+      <div class="imgrow">
+        <img src="images/shicao2_buzzer_3.png" alt="参考流程图" onclick="zoom(this)">
+        <img src="images/shicao2_buzzer_4.png" alt="参考程序" onclick="zoom(this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="prac">
+    <div class="prac-head" onclick="this.parentElement.classList.toggle('open')">
+      <h4><span class="yr">练习题</span>🎚️ 电位器控制 LED 和蜂鸣器</h4><span class="arrow">▼</span>
+    </div>
+    <div class="prac-body">
+      <p><b>任务：</b>旋转电位器，根据返回值分四档：&lt;5 全部熄灭静音；5~300 黄灯亮；300~800 黄、绿灯亮；800~1023 黄、绿、红灯全亮，且蜂鸣器频率随电位器值变化。</p>
+      <p><b>解题关键：</b>经典的"分段判断"题，用 如果 / 否则如果 把 0~1023 切成几段，每段设置不同的灯和声音。</p>
+      <div class="imgrow">
+        <img src="images/shicao3_led_buzz_3.png" alt="参考流程图" onclick="zoom(this)">
+        <img src="images/shicao3_led_buzz_4.png" alt="参考程序" onclick="zoom(this)">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 板块六：闯关自测 ================= -->
+<section class="s6" id="s6">
+  <div class="sec-head"><div class="sec-num">🎯</div><div class="sec-title">闯关自测</div></div>
+  <p class="sec-desc">15 道真题高频考点，点选项立刻知道对错，看看你能拿多少分！</p>
+
+  <div class="quiz-top">
+    <div class="score">🏆 得分：<span id="scoreNum">0</span> / <span id="totalNum">15</span></div>
+    <div class="bar"><i id="scoreBar"></i></div>
+    <div class="verdict" id="verdict">加油，开始闯关吧！</div>
+  </div>
+  <div id="quizBox"></div>
+</section>
+
+<footer>
+  <p class="heart">🤖 💡 🔌</p>
+  <p>全国青少年机器人技术等级考试 · 三级复习乐园 ｜ 卓因青少年创客工场</p>
+  <p>复习顺序建议：知识卡片 → 典型真题 → 实操训练 → 闯关自测，祝考试顺利！🎉</p>
+</footer>
+
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">⬆</button>
+<div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" src="" alt="放大图片"></div>
+
+<script>
+/* ---------- 答案折叠 ---------- */
+function toggleAns(btn){
+  var box = btn.nextElementSibling;
+  box.classList.toggle('show');
+  btn.textContent = box.classList.contains('show') ? '🙈 收起答案' : '🔑 点击看答案';
+}
+/* ---------- 图片灯箱 ---------- */
+function zoom(img){
+  document.getElementById('lbImg').src = img.src;
+  document.getElementById('lightbox').style.display = 'flex';
+}
+/* ---------- 滚动进度 & 返回顶部 ---------- */
+window.addEventListener('scroll', function(){
+  var h = document.documentElement;
+  var pct = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('toTop').style.display = h.scrollTop > 500 ? 'block' : 'none';
+});
+
+/* ---------- 闯关自测 ---------- */
+var QUIZ = [
+  {t:'single', q:'Arduino 控制板相当于机器人的（　）', o:['A. 躯干','B. 大脑','C. 神经','D. 肌肉'], a:1, e:'控制板负责"思考"，相当于机器人的大脑。'},
+  {t:'single', q:'下列物质中属于绝缘体的是（　）', o:['A. 橡胶','B. 铜丝','C. 雨水','D. 导线'], a:0, e:'橡胶是绝缘体；铜丝、雨水、导线都能导电。'},
+  {t:'single', q:'人体的安全电压一般是多少伏特？（　）', o:['A. 5V','B. 12V','C. 36V','D. 110V'], a:2, e:'人体安全电压一般不高于 36V；家庭电路是 220V，很危险！'},
+  {t:'single', q:'2 节普通干电池并联后的电压为（　）', o:['A. 1.5V','B. 2V','C. 3V','D. 3.5V'], a:0, e:'电池并联电压不变，仍是 1.5V；串联才是 3V。'},
+  {t:'single', q:'理想二极管的反向电阻为（　）', o:['A. 0Ω','B. 无穷大','C. 约 1KΩ','D. 220Ω'], a:1, e:'二极管单向导电：正向电阻≈0，反向电阻无穷大。'},
+  {t:'single', q:'将字符 a 赋值给整型变量 c，串口监视器打印 c，看到的是（　）', o:['A. 无输出','B. 输出字符 a','C. 数字 97','D. 程序报错'], a:2, e:'小写 a 的 ASCII 码是 97，整型变量打印的是数字。'},
+  {t:'single', q:'Arduino UNO 主控板 ATmega328P 处理器的主频为（　）', o:['A. 4MHz','B. 8MHz','C. 16MHz','D. 32MHz'], a:2, e:'UNO / Nano 的主频是 16MHz。'},
+  {t:'single', q:'光敏电阻接模拟输入 A3 口，下列值可能是返回值的是（　）', o:['A. -128','B. 256','C. -52','D. 1024'], a:1, e:'模拟输入范围 0~1023，只有 256 在范围内。'},
+  {t:'single', q:'家用电器（电灯、冰箱、电脑等）之间的连接方法是（　）', o:['A. 都是串联','B. 都是并联','C. 串并联都可以','D. 电灯串联，其他并联'], a:1, e:'家用电器都是并联，各用电器互不影响，电压都是 220V。'},
+  {t:'single', q:'超声波传感器相当于机器人的（　）', o:['A. 大脑','B. 眼睛','C. 神经','D. 肌肉'], a:1, e:'超声波用来"看"障碍物有多远，相当于眼睛。'},
+  {t:'single', q:'下列各项中不属于电学单位的是（　）', o:['A. 安培','B. 伏特','C. 牛顿','D. 欧姆'], a:2, e:'牛顿是力的单位；安培=电流，伏特=电压，欧姆=电阻。'},
+  {t:'single', q:'Arduino UNO/Nano 控制板中，下列哪个管脚支持 PWM？（　）', o:['A. 2 号管脚','B. 4 号管脚','C. 5 号管脚','D. 12 号管脚'], a:2, e:'PWM 六兄弟：3、5、6、9、10、11。'},
+  {t:'judge', q:'欧姆定律的公式是 I = U / R。', o:['✔ 正确','✘ 错误'], a:0, e:'电流 = 电压 ÷ 电阻，公式记牢！'},
+  {t:'judge', q:'导体两端电压为 0 时，导体的电阻也为 0。', o:['✔ 正确','✘ 错误'], a:1, e:'电阻是导体本身的性质，不随电压、电流改变。'},
+  {t:'judge', q:'舵机只能连接在标识支持 PWM 的管脚上。', o:['✔ 正确','✘ 错误'], a:1, e:'舵机用普通数字引脚也能驱动，不是必须接 PWM 引脚。'}
+];
+var answered = 0, score = 0;
+var box = document.getElementById('quizBox');
+document.getElementById('totalNum').textContent = QUIZ.length;
+QUIZ.forEach(function(item, idx){
+  var div = document.createElement('div');
+  div.className = 'quiz-q';
+  var tag = item.t === 'judge' ? '<span class="jtag">判断题</span>' : '<span class="jtag">单选题</span>';
+  var html = '<p class="qt"><span class="no">第 ' + (idx+1) + ' 关</span>' + item.q + tag + '</p><div class="quiz-opts">';
+  item.o.forEach(function(opt, oi){
+    html += '<button class="quiz-opt" data-q="' + idx + '" data-o="' + oi + '">' + opt + '</button>';
+  });
+  html += '</div><div class="quiz-exp" id="exp' + idx + '">💡 ' + item.e + '</div>';
+  div.innerHTML = html;
+  box.appendChild(div);
+});
+box.addEventListener('click', function(ev){
+  var btn = ev.target.closest('.quiz-opt');
+  if(!btn || btn.disabled) return;
+  var qi = +btn.dataset.q, oi = +btn.dataset.o;
+  var item = QUIZ[qi];
+  var opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(function(b, bi){
+    b.disabled = true;
+    if(bi === item.a) b.classList.add('right');
+  });
+  if(oi === item.a){
+    score++;
+  }else{
+    btn.classList.add('wrong');
+  }
+  answered++;
+  document.getElementById('exp' + qi).classList.add('show');
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreBar').style.width = (answered / QUIZ.length * 100) + '%';
+  var v = document.getElementById('verdict');
+  if(answered < QUIZ.length){
+    v.textContent = (oi === item.a ? '🎉 答对啦！' : '💪 别灰心，看看解析') + ' 还剩 ' + (QUIZ.length - answered) + ' 关';
+  }else{
+    var r = score / QUIZ.length;
+    v.textContent = r === 1 ? '🏆 满分！你就是三级小达人！' :
+                    r >= 0.8 ? '🌟 优秀！再巩固一下错题就稳了' :
+                    r >= 0.6 ? '🙂 不错哦，把错题对应的知识卡片再看一遍' :
+                    '📖 继续加油，回到上面的知识卡片重新复习一遍吧';
+  }
+});
+</script>
+</body>
+</html>
